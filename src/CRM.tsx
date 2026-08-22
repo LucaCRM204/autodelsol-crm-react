@@ -28,7 +28,7 @@ import {
   MessageCircle,
 } from "lucide-react";
 import { api } from "./api";
-import WhatsAppAdmin from "./components/WhatsAppAdmin";
+import WhatsAppAdminPeugeot from "./components/WhatsAppAdminPeugeot";
 import {
   listUsers,
   createUser as apiCreateUser,
@@ -122,6 +122,7 @@ const fuentes: Record<
   { label: string; color: string; icon: string }
 > = {
   community: { label: "Community", color: "bg-green-600", icon: "💬" },
+  Emanuel: { label: "Emanuel", color: "bg-violet-500", icon: "👤" },
   otro: { label: "Otro", color: "bg-gray-400", icon: "❓" },
 };
 
@@ -140,7 +141,7 @@ const marcas = {
 
 // URL base del servidor del bot de WhatsApp (Baileys) de Auto del Sol.
 // Completar con la URL real una vez desplegado (ej: "https://api.autodelsol.com.ar/wa-bot").
-const WHATSAPP_BOT_URL = "";
+const WHATSAPP_BOT_URL = "https://api.crmalluma.com.ar/wa-peugeot";
 
 
 type LeadRow = {
@@ -6180,7 +6181,7 @@ const getProgresoMes = (vendedor_id: number) => {
     {/* WhatsApp Admin */}
 {activeSection === "whatsapp_admin" && isOwner() && (
   <div className="space-y-6">
-    <WhatsAppAdmin
+    <WhatsAppAdminPeugeot
       botApiUrl={WHATSAPP_BOT_URL}
       title="WhatsApp Admin — Auto del Sol"
     />
@@ -7986,6 +7987,7 @@ const getProgresoMes = (vendedor_id: number) => {
                   >
                     <option value="creado_por">👤 Creado por vendedor</option>
                     <option value="community">💬 Community</option>
+                    <option value="Emanuel">👤 Emanuel</option>
                     <option value="otro">❓ Otro</option>
                   </select>
                 </div>
