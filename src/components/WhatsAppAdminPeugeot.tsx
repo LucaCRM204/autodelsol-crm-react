@@ -242,7 +242,7 @@ export default function WhatsAppAdminPeugeot({ botApiUrl, title = 'WhatsApp Admi
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h2 className="text-3xl font-bold text-gray-800">📱 {title}</h2>
-          <span className="text-sm text-gray-400">Un WhatsApp por vendedor · manda el video del 208 o el 2008 según el anuncio, pide el nombre, entrega el lead al CRM</span>
+          <span className="text-sm text-gray-400">Un WhatsApp por vendedor · atiende con IA y la grilla Peugeot, manda el video si está cargado y entrega el lead calificado al CRM</span>
         </div>
         <div className="flex gap-2">
           <button
@@ -334,7 +334,7 @@ export default function WhatsAppAdminPeugeot({ botApiUrl, title = 'WhatsApp Admi
       {showAdd && (
         <div className="bg-white rounded-xl shadow-sm border-2 border-green-200 p-5">
           <h3 className="font-bold text-gray-800 mb-3">Conectar el WhatsApp de un vendedor</h3>
-          <p className="text-xs text-gray-500 mb-3">Después de conectar, subile los 2 videos (208 y 2008) desde la tarjeta del vendedor.</p>
+          <p className="text-xs text-gray-500 mb-3">Con escanear el QR ya queda andando. Los videos del 208 y el 2008 son opcionales: si los subís, el bot los manda cuando el cliente pregunta por ese modelo.</p>
           <div className="flex items-center gap-3 flex-wrap">
             <select
               value={selUser}
@@ -433,7 +433,7 @@ export default function WhatsAppAdminPeugeot({ botApiUrl, title = 'WhatsApp Admi
               return (
                 <div key={modelo} className={`p-3 rounded-lg border ${tiene ? 'bg-green-50 border-green-200' : 'bg-amber-50 border-amber-200'}`}>
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-700">🎬 Video Peugeot {modelo}</span>
+                    <span className="text-sm font-medium text-gray-700">🎬 Video Peugeot {modelo} <span className="text-gray-400 font-normal">(opcional)</span></span>
                     <span className={`text-xs px-2 py-0.5 rounded-full ${tiene ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>
                       {tiene ? '✅ Cargado' : '⚠️ Falta'}
                     </span>
@@ -475,7 +475,8 @@ export default function WhatsAppAdminPeugeot({ botApiUrl, title = 'WhatsApp Admi
       ))}
 
       <div className="bg-gray-50 rounded-lg p-4 text-xs text-gray-500 space-y-1">
-        <p>• <strong>Flujo del bot:</strong> el cliente escribe → si detectamos el anuncio, mandamos directo el video correcto; si no, preguntamos "¿208 o 2008?" → pedimos el nombre → avisamos al CRM → a partir de ahí sigue el vendedor a mano</p>
+        <p>• <strong>Flujo del bot:</strong> el cliente escribe → la IA averigua el modelo (o lo toma del anuncio), le pasa los valores de la grilla, pregunta forma de compra, anticipo/usado/cuota y nombre → entrega el lead al CRM con todo en las notas → a partir de ahí sigue el vendedor a mano</p>
+        <p>• <strong>Sin respuesta:</strong> si el cliente deja de contestar, a los 20 minutos el lead se entrega igual con lo que haya</p>
         <p>• <strong>Videos:</strong> se mandan como video normal de WhatsApp, no como link — el cliente los ve reproducibles en el chat</p>
         <p>• <strong>Cerrar sesión:</strong> desvincula el WhatsApp por completo, hay que escanear el QR de nuevo</p>
         <p>• <strong>Eliminar:</strong> borra todo — la sesión y los videos configurados de ese vendedor</p>

@@ -2633,7 +2633,7 @@ const getProgresoMes = (vendedor_id: number) => {
     ...(canManageUsers()
       ? [{ key: "users", label: "Usuarios", Icon: Settings }]
       : []),
-    ...(isOwner()
+    ...((isOwner() || ["director", "gerente"].includes(currentUser?.role))
       ? [{ key: "whatsapp_admin", label: "WhatsApp Admin", Icon: MessageCircle }]
       : []),
   ];
@@ -6179,7 +6179,7 @@ const getProgresoMes = (vendedor_id: number) => {
           </div>
         )}
     {/* WhatsApp Admin */}
-{activeSection === "whatsapp_admin" && isOwner() && (
+{activeSection === "whatsapp_admin" && (isOwner() || ["director", "gerente"].includes(currentUser?.role)) && (
   <div className="space-y-6">
     <WhatsAppAdminPeugeot
       botApiUrl={WHATSAPP_BOT_URL}
