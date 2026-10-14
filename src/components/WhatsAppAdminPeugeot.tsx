@@ -12,6 +12,8 @@ interface WASession {
 
 interface Usuario { id: number; name: string; role: string; }
 
+const ROL_LABEL: Record<string, string> = { gerente: 'Gerencia', supervisor: 'Supervisión', vendedor: 'Vendedor' };
+
 interface AdMapping {
   id: number;
   source_id: string;
@@ -255,7 +257,7 @@ export default function WhatsAppAdminPeugeot({ botApiUrl, title = 'WhatsApp Admi
             onClick={() => { setShowAdd(v => !v); if (!usuarios.length) loadUsuarios(); }}
             className="px-4 py-2.5 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors whitespace-nowrap"
           >
-            ➕ Agregar vendedor
+            ➕ Agregar número
           </button>
         </div>
       </div>
@@ -333,7 +335,8 @@ export default function WhatsAppAdminPeugeot({ botApiUrl, title = 'WhatsApp Admi
 
       {showAdd && (
         <div className="bg-white rounded-xl shadow-sm border-2 border-green-200 p-5">
-          <h3 className="font-bold text-gray-800 mb-3">Conectar el WhatsApp de un vendedor</h3>
+          <h3 className="font-bold text-gray-800 mb-3">Conectar un WhatsApp</h3>
+          <p className="text-xs text-gray-500 mb-1"><strong>Vendedor:</strong> los leads de ese número son suyos. <strong>Gerencia / supervisión:</strong> los leads se reparten entre los vendedores de su equipo.</p>
           <p className="text-xs text-gray-500 mb-3">Con escanear el QR ya queda andando. Los videos del 208 y el 2008 son opcionales: si los subís, el bot los manda cuando el cliente pregunta por ese modelo.</p>
           <div className="flex items-center gap-3 flex-wrap">
             <select
@@ -341,8 +344,8 @@ export default function WhatsAppAdminPeugeot({ botApiUrl, title = 'WhatsApp Admi
               onChange={e => setSelUser(e.target.value)}
               className="text-sm border border-gray-300 rounded-lg px-3 py-2.5 bg-white flex-1 min-w-[220px] max-w-md"
             >
-              <option value="">— Elegí un vendedor —</option>
-              {usuariosSinSesion.map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
+              <option value="">— Elegí un usuario —</option>
+              {usuariosSinSesion.map(u => <option key={u.id} value={u.id}>{u.name} · {ROL_LABEL[u.role] || u.role}</option>)}
             </select>
             <button
               onClick={conectarNuevo}
@@ -376,7 +379,7 @@ export default function WhatsAppAdminPeugeot({ botApiUrl, title = 'WhatsApp Admi
 
       {!loading && sessions.length === 0 && !error && (
         <div className="bg-gray-50 rounded-lg p-8 text-center text-gray-500">
-          Todavía no hay ningún vendedor conectado. Arrancá con <strong>➕ Agregar vendedor</strong>.
+          Todavía no hay ningún número conectado. Arrancá con <strong>➕ Agregar número</strong>.
         </div>
       )}
 
@@ -384,7 +387,14 @@ export default function WhatsAppAdminPeugeot({ botApiUrl, title = 'WhatsApp Admi
         <div key={s.supervisorId} className="bg-white rounded-xl shadow-sm border p-5">
           <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
             <div>
-              <h3 className="font-bold text-lg text-gray-800">{s.supervisorName}</h3>
+              <h3 className="font-bold text-lg text-gray-800">
+                {s.supervisorName}
+                {s.role && s.role !== 'vendedor' && (
+                  <span className="ml-2 align-middle text-xs font-medium bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full">
+                    {ROL_LABEL[s.role] || s.role} · reparte entre su equipo
+                  </span>
+                )}
+              </h3>
               <div className="mt-1">
                 {s.status === 'connected' ? (
                   <span className="text-green-600 text-sm font-medium">🟢 Conectado{s.phone ? ` — +${s.phone}` : ''}</span>
